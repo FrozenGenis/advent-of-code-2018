@@ -3,11 +3,9 @@ package com.github.frozengenis.day1
 import java.io.File
 import java.util.*
 
-fun main() {
-    val inputOfFrequencies = File("""C:\Users\Leroy\Workspace\advent-of-code-2018\src\com\github\frozengenis\day1\input.txt""")
-    val result = sumFrequencies(inputOfFrequencies)
-    println(result)
-}
+fun main() = File("""src\com\github\frozengenis\day1\input.txt""")
+    .let(::sumFrequencies)
+    .let(::println)
 
 fun sumFrequencies(input: File) : Int {
     val scanner = Scanner(input)
