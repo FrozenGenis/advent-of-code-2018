@@ -7,27 +7,25 @@ var sum = 0
 val sumTally = mutableSetOf<Int>()
 
 fun main() {
-    val inputOfFrequencies = File("""C:\Users\Leroy\Workspace\advent-of-code-2018\src\com\github\frozengenis\day1\input.txt""")
-    var foundResult = false
+    val inputOfFrequencies = File("""src\com\github\frozengenis\day1\input.txt""")
+    var result: Int? = null
 
-    while (!foundResult) {
-        foundResult = findDuplicateResultingFrequency(inputOfFrequencies)
+    while (result == null) {
+        result = findDuplicateResultingFrequency(inputOfFrequencies)
+        result?.let(::println)
     }
 }
 
-fun findDuplicateResultingFrequency(input: File) : Boolean{
+fun findDuplicateResultingFrequency(input: File): Int? {
     val scanner = Scanner(input)
 
     while (scanner.hasNext()) {
         val token = scanner.next()
         sum += parseFrequency(token)
-        val isAdded = sumTally.add(sum)
 
-        if (!isAdded) {
-            println(sum)
-            return true
-        }
+        val isAdded = sumTally.add(sum)
+        if (!isAdded) return sum
     }
 
-    return false
+    return null
 }
