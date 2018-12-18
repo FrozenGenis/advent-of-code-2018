@@ -56,4 +56,4 @@ fun applyLogsToGuards(logs: List<Log>): List<Guard> {
     return guardsById.values.toList()
 }
 
-private fun calculateSolution(guard: Guard) = guard.findMinuteMostSlept()?.times(guard.id)
+fun calculateSolution(guard: Guard) = guard.minutesMostFrequentlyAsleep?.times(guard.id)
