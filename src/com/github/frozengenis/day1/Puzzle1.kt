@@ -3,25 +3,53 @@ package com.github.frozengenis.day1
 import java.io.File
 import java.util.*
 
-fun main() = File("""src\com\github\frozengenis\day1\input.txt""")
-    .let(::sumFrequencies)
-    .let(::println)
+fun main() {
+    println("Advent of Code 2018 - Day 1")
 
-fun sumFrequencies(input: File) : Int {
-    val scanner = Scanner(input)
+    val inputFile = File("""src\com\github\frozengenis\day1\input.txt""")
+    println("Resulting frequency: ${inputFile.let(::calculateResultingFrequency)}")
+    println("Duplicate resulting frequency: ${inputFile.let(::findDuplicateResultingFrequency)}")
+}
+
+private fun calculateResultingFrequency(inputFile: File): Int {
+    val scanner = Scanner(inputFile)
     var result = 0
 
     while (scanner.hasNext()) {
-        val token = scanner.next()
-        result += parseFrequency(token)
+        result += scanner.next().let(::parseFrequency)
     }
 
     return result
 }
 
-fun parseFrequency(input: String) : Int {
-    val frequency = input.trim()
-    val scanner = Scanner(frequency)
+private fun findDuplicateResultingFrequency(inputFile: File): Int {
+    var result: Int? = null
+    var resultingFrequency = 0
+    val resultingFrequencies = mutableSetOf<Int>()
+
+    while (result == null) {
+        val searchResult = searchForDuplicate(inputFile, resultingFrequency, resultingFrequencies)
+        if (searchResult.first == null) resultingFrequency = searchResult.second else result = searchResult.first
+    }
+
+    return result
+}
+
+private fun searchForDuplicate(inputFile: File, currentResultingFrequency: Int, resultingFrequencies: MutableSet<Int>): Pair<Int?, Int> {
+    val scanner = Scanner(inputFile)
+    var resultingFrequency = currentResultingFrequency
+
+    while (scanner.hasNext()) {
+        resultingFrequency += scanner.next().let(::parseFrequency)
+        val isAdded = resultingFrequencies.add(resultingFrequency)
+        if (!isAdded) return Pair(resultingFrequency, resultingFrequency)
+    }
+
+    return Pair(null, resultingFrequency)
+}
+
+private fun parseFrequency(input: String): Int {
+    val scanner = input.trim().let(::Scanner)
     val token = scanner.useDelimiter("").next()
     val number = scanner.reset().nextInt()
 
