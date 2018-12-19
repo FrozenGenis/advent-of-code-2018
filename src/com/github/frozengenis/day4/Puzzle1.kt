@@ -11,13 +11,15 @@ fun main() {
         .let(::applyLogsToGuards)
 
     val answerPart1 = guards.maxBy(Guard::totalTimeAsleep)?.let(::calculateAnswer)
+    val answerPart2 = guards.maxBy { it.maxTimesAsleepOnSameMinute ?: -1 }?.let(::calculateAnswer)
 
     StringBuilder("Advent of Code 2018 - Day 4").appendln().appendln()
         .appendln("Answer part 1: $answerPart1")
+        .appendln("Answer part 2: $answerPart2")
         .let(::print)
 }
 
-fun parseInputToLogs(input: File): List<Log> {
+private fun parseInputToLogs(input: File): List<Log> {
     val scanner = Scanner(input)
     val result = mutableListOf<Log>()
 
@@ -46,7 +48,7 @@ private fun parseToLog(input: String): Log {
     }
 }
 
-fun applyLogsToGuards(logs: List<Log>): List<Guard> {
+private fun applyLogsToGuards(logs: List<Log>): List<Guard> {
     var guardAtShift: Guard? = null
     val guardsById = mutableMapOf<Int, Guard>()
 
@@ -61,4 +63,4 @@ fun applyLogsToGuards(logs: List<Log>): List<Guard> {
     return guardsById.values.toList()
 }
 
-fun calculateAnswer(guard: Guard) = guard.minuteMostAsleep?.times(guard.id)
+private fun calculateAnswer(guard: Guard) = guard.minuteMostAsleep?.times(guard.id)
