@@ -30,14 +30,11 @@ private fun parseInputToFabric(input: File): Fabric {
 }
 
 private fun parseToClaim(claim: String): Claim {
-    val scanner = Scanner(claim).useDelimiter("[ #@,:x]")
+    val scanner = Scanner(claim).useDelimiter("#| @ |,|: |x")
 
     val id = scanner.nextInt()
-    scanner.next()
-    scanner.next()
     val x = scanner.nextInt()
     val y = scanner.nextInt()
-    scanner.next()
     val width = scanner.nextInt()
     val height = scanner.nextInt()
 
