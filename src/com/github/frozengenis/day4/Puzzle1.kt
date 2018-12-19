@@ -5,12 +5,17 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-fun main() = File("""src\com\github\frozengenis\day4\input.txt""")
-    .let(::parseInputToLogs)
-    .let(::applyLogsToGuards)
-    .maxBy(Guard::totalTimeAsleep)
-    ?.let(::calculateSolution)
-    .let(::println)
+fun main() {
+    val guards = File("""src\com\github\frozengenis\day4\input.txt""")
+        .let(::parseInputToLogs)
+        .let(::applyLogsToGuards)
+
+    val answerPart1 = guards.maxBy(Guard::totalTimeAsleep)?.let(::calculateAnswer)
+
+    StringBuilder("Advent of Code 2018 - Day 4").appendln().appendln()
+        .appendln("Answer part 1: $answerPart1")
+        .let(::print)
+}
 
 fun parseInputToLogs(input: File): List<Log> {
     val scanner = Scanner(input)
@@ -56,4 +61,4 @@ fun applyLogsToGuards(logs: List<Log>): List<Guard> {
     return guardsById.values.toList()
 }
 
-fun calculateSolution(guard: Guard) = guard.minutesMostFrequentlyAsleep?.times(guard.id)
+fun calculateAnswer(guard: Guard) = guard.minuteMostAsleep?.times(guard.id)

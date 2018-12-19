@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 class Guard(val id: Int) {
 
     val totalTimeAsleep: Duration = Duration.ZERO
-    val minutesMostFrequentlyAsleep
+    val minuteMostAsleep
         get() = schedule.entries.maxBy { it.value }?.key
     val maxTimesAsleepOnSameMinute
         get() = schedule.values.max()

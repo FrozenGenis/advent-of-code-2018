@@ -6,5 +6,5 @@ fun main() = File("""src\com\github\frozengenis\day4\input.txt""")
     .let(::parseInputToLogs)
     .let(::applyLogsToGuards)
     .maxBy { it.maxTimesAsleepOnSameMinute ?: -1 }
-    ?.let(::calculateSolution)
+    ?.let(::calculateAnswer)
     .let(::println)
