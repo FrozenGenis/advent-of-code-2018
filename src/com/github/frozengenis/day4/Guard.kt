@@ -8,7 +8,7 @@ class Guard(val id: Int) {
     var totalTimeAsleep: Duration = Duration.ZERO
     val minuteMostAsleep
         get() = schedule.entries.maxBy { it.value }?.key
-    val maxTimesAsleepOnSameMinute
+    val maxFrequencyAsleepOnSameMinute
         get() = schedule.values.max()
 
     private lateinit var sleepTime: LocalDateTime
@@ -25,5 +25,9 @@ class Guard(val id: Int) {
 
     fun sleepAt(time: LocalDateTime) {
         sleepTime = time
+    }
+
+    override fun toString(): String {
+        return "Guard(id=$id, minuteMostAsleep=$minuteMostAsleep with frequency=$maxFrequencyAsleepOnSameMinute)"
     }
 }

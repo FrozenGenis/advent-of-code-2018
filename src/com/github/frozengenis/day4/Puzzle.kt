@@ -10,12 +10,12 @@ fun main() {
         .let(::parseInputToLogs)
         .let(::applyLogsToGuards)
 
-    val answerPart1 = guards.maxBy(Guard::totalTimeAsleep)?.let(::calculateAnswer)
-    val answerPart2 = guards.maxBy { it.maxTimesAsleepOnSameMinute ?: -1 }?.let(::calculateAnswer)
+    val guardMostSlept = guards.maxBy(Guard::totalTimeAsleep)
+    val guardMostSleptOnSameMinute = guards.maxBy { it.maxFrequencyAsleepOnSameMinute ?: -1 }
 
     StringBuilder("Advent of Code 2018 - Day 4").appendln().appendln()
-        .appendln("Answer part 1: $answerPart1")
-        .appendln("Answer part 2: $answerPart2")
+        .appendln("Answer part 1: ${guardMostSlept?.let(::calculateAnswer)} \t by $guardMostSlept")
+        .appendln("Answer part 2: ${guardMostSleptOnSameMinute?.let(::calculateAnswer)} \t by $guardMostSleptOnSameMinute")
         .let(::print)
 }
 
