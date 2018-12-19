@@ -3,12 +3,18 @@ package com.github.frozengenis.day3
 import java.io.File
 import java.util.*
 
-fun main() = File("""src\com\github\frozengenis\day3\input.txt""")
-    .let(::parseInputToFabric)
-    .let(Fabric::overlap)
-    .let(::println)
+fun main() {
+    val fabric = File("""src\com\github\frozengenis\day3\input.txt""")
+        .let(::parseInputToFabric)
 
-fun parseInputToFabric(input: File): Fabric {
+    val totalOverlappingInches = fabric.totalInchesOfOverlappingClaims
+
+    StringBuilder("Advent of Code 2018 - Day 3").appendln().appendln()
+        .appendln("Square inches of fabric within two or more claims: $totalOverlappingInches")
+        .let(::print)
+}
+
+private fun parseInputToFabric(input: File): Fabric {
     val scanner = Scanner(input)
     val result = Fabric()
 
@@ -21,7 +27,7 @@ fun parseInputToFabric(input: File): Fabric {
     return result
 }
 
-fun parseToClaim(claim: String): Claim {
+private fun parseToClaim(claim: String): Claim {
     val scanner = Scanner(claim).useDelimiter("[ #@,:x]")
 
     val id = scanner.nextInt()

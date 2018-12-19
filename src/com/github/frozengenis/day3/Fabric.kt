@@ -7,7 +7,7 @@ class Fabric {
     }
 
     val grid = Array(1000) { Array(1000) { Pair(Area.FREE, setOf<Int>()) } } // inches
-    var overlap = 0 // inches
+    var totalInchesOfOverlappingClaims = 0 // inches
 
     fun findUniqueClaim(): Int? {
         val map = mutableMapOf<Int, MutableSet<Area>>()
@@ -40,7 +40,7 @@ class Fabric {
         when (areaWithIds.first) {
             Area.FREE -> Pair(Area.CLAIMED, setOf(id))
             Area.CLAIMED -> {
-                overlap += 1
+                totalInchesOfOverlappingClaims += 1
                 Pair(Area.CONFLICT, areaWithIds.second + id)
             }
             Area.CONFLICT -> Pair(Area.CONFLICT, areaWithIds.second + id)
