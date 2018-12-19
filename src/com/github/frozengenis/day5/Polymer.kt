@@ -5,6 +5,23 @@ class Polymer(private val sequence: CharSequence) {
     val length
         get() = sequence.length
 
+    fun calculateMinLengthAfterSingleTypeRemoval(): Int {
+        var result = Int.MAX_VALUE
+
+        sequence.asSequence()
+            .toSet()
+            .filter { it.isLowerCase() }
+            .forEach { type ->
+                run {
+                    sequence.filterNot { type.equals(it, ignoreCase = true) }
+                        .let { applyReactions(it).length }
+                        .let { if (it < result) result = it }
+                }
+            }
+
+        return result
+    }
+
     fun react(): Polymer = applyReactions(sequence).let(::Polymer)
 
     private fun applyReactions(inputSequence: CharSequence): CharSequence {
