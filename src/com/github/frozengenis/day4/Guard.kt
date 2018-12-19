@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 
 class Guard(val id: Int) {
 
-    val totalTimeAsleep: Duration = Duration.ZERO
+    var totalTimeAsleep: Duration = Duration.ZERO
     val minuteMostAsleep
         get() = schedule.entries.maxBy { it.value }?.key
     val maxTimesAsleepOnSameMinute
@@ -16,7 +16,7 @@ class Guard(val id: Int) {
 
     fun wakeUpAt(wakeTime: LocalDateTime) {
         val timeAsleep = Duration.between(sleepTime, wakeTime)
-        totalTimeAsleep.plus(timeAsleep)
+        totalTimeAsleep += timeAsleep
 
         for (minute in sleepTime.minute until wakeTime.minute) {
             schedule.computeIfPresent(minute) { _, value -> value + 1 } ?: schedule.put(minute, 1)
