@@ -6,9 +6,12 @@ import java.util.*
 fun main() {
     val inputFile = File("""src\com\github\frozengenis\day1\input.txt""")
 
+    val resultingFrequency = calculateResultingFrequency(inputFile)
+    val duplicateResultingFrequency = findDuplicateResultingFrequency(inputFile)
+
     StringBuilder("Advent of Code 2018 - Day 1").appendln().appendln()
-        .appendln("Resulting frequency: ${calculateResultingFrequency(inputFile)}")
-        .appendln("Duplicate resulting frequency: ${findDuplicateResultingFrequency(inputFile)}")
+        .appendln("Resulting frequency: $resultingFrequency")
+        .appendln("Duplicate resulting frequency: $duplicateResultingFrequency")
         .let(::print)
 }
 
