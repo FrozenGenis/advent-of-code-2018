@@ -4,11 +4,12 @@ import java.io.File
 import java.util.*
 
 fun main() {
-    println("Advent of Code 2018 - Day 1")
-
     val inputFile = File("""src\com\github\frozengenis\day1\input.txt""")
-    println("Resulting frequency: ${inputFile.let(::calculateResultingFrequency)}")
-    println("Duplicate resulting frequency: ${inputFile.let(::findDuplicateResultingFrequency)}")
+
+    StringBuilder("Advent of Code 2018 - Day 1").appendln().appendln()
+        .appendln("Resulting frequency: ${calculateResultingFrequency(inputFile)}")
+        .appendln("Duplicate resulting frequency: ${findDuplicateResultingFrequency(inputFile)}")
+        .let(::print)
 }
 
 private fun calculateResultingFrequency(inputFile: File): Int {
