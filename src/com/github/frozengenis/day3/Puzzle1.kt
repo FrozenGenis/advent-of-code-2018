@@ -8,9 +8,11 @@ fun main() {
         .let(::parseInputToFabric)
 
     val totalOverlappingInches = fabric.totalInchesOfOverlappingClaims
+    val uniqueClaimId = fabric.findUniqueClaimId()
 
     StringBuilder("Advent of Code 2018 - Day 3").appendln().appendln()
         .appendln("Square inches of fabric within two or more claims: $totalOverlappingInches")
+        .appendln("ID of the only claim that doesn't overlap: $uniqueClaimId")
         .let(::print)
 }
 

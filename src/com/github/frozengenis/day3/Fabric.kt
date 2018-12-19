@@ -9,7 +9,7 @@ class Fabric {
     val grid = Array(1000) { Array(1000) { Pair(Area.FREE, setOf<Int>()) } } // inches
     var totalInchesOfOverlappingClaims = 0 // inches
 
-    fun findUniqueClaim(): Int? {
+    fun findUniqueClaimId(): Int? {
         val map = mutableMapOf<Int, MutableSet<Area>>()
 
         for (areas in grid) {
