@@ -8,9 +8,11 @@ fun main() {
         .let(::parseToBoxes)
 
     val checksum = calculateChecksum(boxes)
+    val commonLetters = findCommonLetters(boxes)
 
     StringBuilder("Advent of Code 2018 - Day 2").appendln().appendln()
         .appendln("Checksum: $checksum")
+        .appendln("Common letters: $commonLetters")
         .let(::print)
 }
 
@@ -60,4 +62,18 @@ private fun checkForFrequenciesIn(boxId: String): Pair<Boolean, Boolean> {
     }
 
     return Pair(frequencyOfChars.values.contains(2), frequencyOfChars.values.contains(3))
+}
+
+private fun findCommonLetters(boxes: List<Box>) =
+    boxes
+        .let(::findPair)
+        .let { it.first.id.filterCommon(it.second.id) }
+
+private fun findPair(boxes: List<Box>): Pair<Box, Box> {
+    val result = boxes.filter { box1 ->
+        boxes.any { box1.id.hasDistanceOf(1, it.id) }
+    }
+    if (result.size != 2) throw IllegalArgumentException("Invalid input")
+
+    return Pair(result[0], result[1])
 }
