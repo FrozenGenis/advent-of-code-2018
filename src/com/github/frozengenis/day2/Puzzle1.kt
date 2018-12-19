@@ -4,41 +4,60 @@ import java.io.File
 import java.util.*
 
 fun main() {
-    val inputFile = File("""src\com\github\frozengenis\day2\input.txt""")
-    val scanner = Scanner(inputFile)
-    var sums = Pair(0, 0)
+    val boxes = File("""src\com\github\frozengenis\day2\input.txt""")
+        .let(::parseToBoxes)
 
-    while (scanner.hasNext()) {
-        val boxId = scanner.next()
-        sums = updateSums(boxId, sums)
-    }
+    val checksum = calculateChecksum(boxes)
 
-    val checksum = sums.first * sums.second
-    println(checksum)
+    StringBuilder("Advent of Code 2018 - Day 2").appendln().appendln()
+        .appendln("Checksum: $checksum")
+        .let(::print)
 }
 
-private fun updateSums(boxId: String, sums: Pair<Int, Int>): Pair<Int, Int> {
-    val appearances = checkAppearances(boxId)
-    if (!appearances.first && !appearances.second) return sums
+private fun parseToBoxes(inputFile: File): List<Box> {
+    val scanner = Scanner(inputFile)
+    val result = mutableListOf<Box>()
 
-    val firstSum = if (appearances.first) sums.first + 1 else sums.first
-    val secondSum = if (appearances.second) sums.second + 1 else sums.second
-    return sums.copy(firstSum, secondSum)
+    while (scanner.hasNext()) {
+        scanner.next()
+            .let(::Box)
+            .let(result::add)
+    }
+
+    return result
+}
+
+private fun calculateChecksum(boxes: List<Box>): Int =
+    boxes
+        .fold(Pair(0, 0)) { acc, e -> accumulateFrequencyCounts(acc, e) }
+        .let { it.first * it.second }
+
+private fun accumulateFrequencyCounts(acc: Pair<Int, Int>, box: Box): Pair<Int, Int> {
+    val appearances = checkForFrequenciesIn(box.id)
+    if (!appearances.first && !appearances.second) return acc
+
+    val frequencyOfTwoCount = if (appearances.first) acc.first + 1 else acc.first
+    val frequencyOfThreeCount = if (appearances.second) acc.second + 1 else acc.second
+    return acc.copy(frequencyOfTwoCount, frequencyOfThreeCount)
 }
 
 /**
  * Returns a [Pair] with the following conditions:
- * - the first value is true if [boxId] contains a letter which appears exactly twice; false otherwise
- * - the second value is true if [boxId] contains a letter which appears exactly three times; false otherwise.
+ * - the first value is true if [boxId] contains a letter with a frequency of two; false otherwise
+ * - the second value is true if [boxId] contains a letter with a frequency of three; false otherwise.
  */
-private fun checkAppearances(boxId: String): Pair<Boolean, Boolean> {
+private fun checkForFrequenciesIn(boxId: String): Pair<Boolean, Boolean> {
     val scanner = Scanner(boxId).useDelimiter("")
-    val frequencyMap = mutableMapOf<Char, Int>()
+    val frequencyOfChars = mutableMapOf<Char, Int>()
 
     while (scanner.hasNext()) {
         val char = scanner.next()[0]
-        frequencyMap.compute(char) { _, value -> if (value == null) 1 else value + 1 }
+
+        val frequency = frequencyOfChars.getOrDefault(char, defaultValue = 0)
+        if (frequency > 3) continue
+
+        frequencyOfChars[char] = frequency + 1
     }
 
-    return Pair(frequencyMap.values.contains(2), frequencyMap.values.contains(3))
+    return Pair(frequencyOfChars.values.contains(2), frequencyOfChars.values.contains(3))
 }
